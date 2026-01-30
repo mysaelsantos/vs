@@ -59,13 +59,8 @@ function ResumoModal() {
     if (!modalData) return null;
 
     return (
-        <div className="p-4">
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-primary">Resumo do Agendamento</h2>
-                <button className="modal-close-btn" onClick={closeModal}>
-                    <i className="fas fa-times"></i>
-                </button>
-            </div>
+        <div className="p-4 pt-2">
+            <h2 className="text-xl font-bold text-primary mb-6">Resumo do Agendamento</h2>
 
             {/* Detalhes */}
             <div className="info-card mb-4">
