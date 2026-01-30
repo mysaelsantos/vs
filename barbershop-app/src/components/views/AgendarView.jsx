@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useApp } from '../../context/AppContext';
 
 function AgendarView() {
     const {
         isLoggedIn,
-        userInfo,
         userSubscription,
         openModal,
         getUnitById,
@@ -28,7 +27,6 @@ function AgendarView() {
                 time: selectedTime,
             });
         } else {
-            // Se não completou, abre o primeiro modal não preenchido
             if (!selectedUnit) {
                 openModal('unidades', {
                     selected: selectedUnit,
@@ -71,20 +69,6 @@ function AgendarView() {
 
     return (
         <div className="agendar-view">
-            {/* Video Background */}
-            <div className="video-background">
-                <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="background-video"
-                >
-                    <source src="/vs.mp4" type="video/mp4" />
-                </video>
-                <div className="video-overlay"></div>
-            </div>
-
             {/* Content */}
             <div className="agendar-content">
                 {/* Logo */}
