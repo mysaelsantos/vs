@@ -23,14 +23,14 @@ function PerfilView() {
 
                     <div className="space-y-3 w-full max-w-xs">
                         <button
-                            className="btn-primary w-full"
+                            className="btn-primary-sm w-full"
                             onClick={() => openModal('login')}
                         >
                             <i className="fas fa-sign-in-alt mr-2"></i>
                             Entrar
                         </button>
                         <button
-                            className="btn-outline w-full"
+                            className="btn-outline-sm w-full"
                             onClick={() => openModal('cadastro')}
                         >
                             <i className="fas fa-user-plus mr-2"></i>
