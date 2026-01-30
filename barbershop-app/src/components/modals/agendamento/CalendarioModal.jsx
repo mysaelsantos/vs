@@ -85,13 +85,8 @@ function CalendarioModal() {
     };
 
     return (
-        <div className="p-4">
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-primary">Data e Hora</h2>
-                <button className="modal-close-btn" onClick={closeModal}>
-                    <i className="fas fa-times"></i>
-                </button>
-            </div>
+        <div className="p-4 pt-2">
+            <h2 className="text-xl font-bold text-primary mb-6">Data e Hora</h2>
 
             {/* Navegação do mês */}
             <div className="flex items-center justify-between mb-4">
