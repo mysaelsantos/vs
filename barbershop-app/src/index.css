@@ -57,7 +57,7 @@ body {
 }
 
 .loader-logo {
-  width: 200px;
+  width: 100px;
   height: auto;
   animation: pulse 2s ease-in-out infinite;
 }
@@ -200,6 +200,48 @@ body {
   background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
 }
 
+/* Small buttons for Perfil view */
+.btn-primary-sm {
+  background: linear-gradient(135deg, #fbb62c 0%, #d4930e 100%);
+  color: #000;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary-sm:hover {
+  background: linear-gradient(135deg, #e0a828 0%, #c08510 100%);
+  transform: translateY(-1px);
+}
+
+.btn-outline-sm {
+  background: transparent;
+  color: #fbb62c;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 2px solid #fbb62c;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-outline-sm:hover {
+  background: rgba(251, 182, 44, 0.1);
+}
+
 /* ===== FORM INPUTS ===== */
 .form-input {
   width: 100%;
@@ -288,28 +330,35 @@ body {
   height: 100vh;
 }
 
-.modal-header {
-  position: sticky;
-  top: 0;
-  background: linear-gradient(180deg, #1e1e1e 0%, #1e1e1e 90%, transparent 100%);
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 10;
+.modal-handle-area {
+  padding: 16px 0 8px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.modal-handle-area:active {
+  cursor: grabbing;
 }
 
 .modal-handle {
   width: 40px;
   height: 4px;
-  background: #444;
+  background: #555;
   border-radius: 2px;
-  margin: 0 auto 12px;
+  margin: 0 auto;
+}
+
+.modal-body {
+  position: relative;
+  padding: 0;
 }
 
 .modal-close-btn {
-  width: 36px;
-  height: 36px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   border: none;
@@ -319,6 +368,7 @@ body {
   justify-content: center;
   cursor: pointer;
   transition: background 0.2s ease;
+  z-index: 10;
 }
 
 .modal-close-btn:hover {
@@ -1095,6 +1145,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   cursor: pointer;
   margin-top: 20px;
+  margin-bottom: 20px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(251, 182, 44, 0.3);
 }
