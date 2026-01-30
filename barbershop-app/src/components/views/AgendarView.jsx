@@ -6,9 +6,6 @@ function AgendarView() {
         isLoggedIn,
         userInfo,
         userSubscription,
-        units,
-        barbers,
-        services,
         openModal,
         getUnitById,
         getBarberById,
@@ -21,7 +18,7 @@ function AgendarView() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
 
-    const handleContinue = () => {
+    const handleAgendar = () => {
         if (selectedUnit && selectedBarber && selectedService && selectedDate && selectedTime) {
             openModal('resumo', {
                 unit: getUnitById(selectedUnit),
@@ -30,215 +27,169 @@ function AgendarView() {
                 date: selectedDate,
                 time: selectedTime,
             });
+        } else {
+            // Se não completou, abre o primeiro modal não preenchido
+            if (!selectedUnit) {
+                openModal('unidades', {
+                    selected: selectedUnit,
+                    onSelect: setSelectedUnit
+                });
+            } else if (!selectedBarber) {
+                openModal('barbeiros', {
+                    unitId: selectedUnit,
+                    selected: selectedBarber,
+                    onSelect: setSelectedBarber
+                });
+            } else if (!selectedService) {
+                openModal('servicos', {
+                    selected: selectedService,
+                    onSelect: setSelectedService,
+                    coveredServices: isLoggedIn ? userSubscription?.coveredServices : []
+                });
+            } else if (!selectedDate || !selectedTime) {
+                openModal('calendario', {
+                    selectedDate,
+                    selectedTime,
+                    onSelect: (date, time) => {
+                        setSelectedDate(date);
+                        setSelectedTime(time);
+                    }
+                });
+            }
         }
     };
 
-    const canUsePlanService = () => {
-        if (!isLoggedIn || !userSubscription) return false;
-        if (userSubscription.usedServices >= userSubscription.totalServices) return false;
-        return selectedService && userSubscription.coveredServices.includes(selectedService);
-    };
-
-    const getServicePrice = () => {
-        if (!selectedService) return null;
-        const service = getServiceById(selectedService);
-        if (canUsePlanService()) return 0;
-        return service.promoPrice || service.price;
+    const isSelected = (type) => {
+        switch (type) {
+            case 'unit': return selectedUnit !== null;
+            case 'barber': return selectedBarber !== null;
+            case 'service': return selectedService !== null;
+            case 'datetime': return selectedDate !== null && selectedTime !== null;
+            default: return false;
+        }
     };
 
     return (
-        <div className="p-4">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold text-primary">VS Barbearia</h1>
-                    <p className="text-secondary text-sm">
-                        {isLoggedIn ? `Olá, ${userInfo.name.split(' ')[0]}!` : 'Bem-vindo!'}
-                    </p>
+        <div className="agendar-view">
+            {/* Video Background */}
+            <div className="video-background">
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="background-video"
+                >
+                    <source src="/vs.mp4" type="video/mp4" />
+                </video>
+                <div className="video-overlay"></div>
+            </div>
+
+            {/* Content */}
+            <div className="agendar-content">
+                {/* Logo */}
+                <div className="logo-section">
+                    <img
+                        src="https://i.postimg.cc/5yBSjg1F/Bigode-3.png"
+                        alt="VS Barbearia"
+                        className="logo-image"
+                    />
                 </div>
-                <img
-                    src="https://i.postimg.cc/5yBSjg1F/Bigode-3.png"
-                    alt="Logo"
-                    className="w-12 h-12"
-                />
-            </div>
 
-            {/* Banner de Plano */}
-            {isLoggedIn && userSubscription && (
-                <div
-                    className="info-card mb-6 cursor-pointer hover:border-primary transition-colors"
-                    onClick={() => openModal('assinatura')}
-                >
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                                <i className="fas fa-crown text-primary"></i>
-                            </div>
-                            <div>
-                                <p className="font-semibold text-white">{userSubscription.plan}</p>
-                                <p className="text-sm text-secondary">
-                                    {userSubscription.usedServices}/{userSubscription.totalServices} cortes usados
-                                </p>
-                            </div>
-                        </div>
-                        <i className="fas fa-chevron-right text-secondary"></i>
-                    </div>
-                    <div className="mt-3">
-                        <div className="progress-bar">
-                            <div
-                                className="progress-bar-fill"
-                                style={{ width: `${(userSubscription.usedServices / userSubscription.totalServices) * 100}%` }}
-                            ></div>
-                        </div>
-                    </div>
+                {/* Title */}
+                <div className="title-section">
+                    <h1 className="main-title">Agende seu horário</h1>
+                    <div className="title-underline"></div>
+                    <p className="subtitle">Escolha os serviços e agende com facilidade.</p>
                 </div>
-            )}
 
-            {/* Título da Seção */}
-            <h2 className="text-lg font-bold mb-4">Agendar Serviço</h2>
-
-            {/* Seleção de Unidade */}
-            <div className="mb-4">
-                <label className="text-sm text-secondary mb-2 block">Unidade</label>
-                <button
-                    className="w-full list-item justify-between"
-                    onClick={() => openModal('unidades', {
-                        selected: selectedUnit,
-                        onSelect: setSelectedUnit
-                    })}
-                >
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                            <i className="fas fa-location-dot text-primary"></i>
-                        </div>
-                        <span className={selectedUnit ? 'text-white' : 'text-secondary'}>
-                            {selectedUnit ? getUnitById(selectedUnit).name : 'Selecione uma unidade'}
-                        </span>
-                    </div>
-                    <i className="fas fa-chevron-right text-secondary"></i>
-                </button>
-            </div>
-
-            {/* Seleção de Barbeiro */}
-            <div className="mb-4">
-                <label className="text-sm text-secondary mb-2 block">Barbeiro</label>
-                <button
-                    className={`w-full list-item justify-between ${!selectedUnit ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    onClick={() => selectedUnit && openModal('barbeiros', {
-                        unitId: selectedUnit,
-                        selected: selectedBarber,
-                        onSelect: setSelectedBarber
-                    })}
-                    disabled={!selectedUnit}
-                >
-                    <div className="flex items-center gap-3">
-                        {selectedBarber ? (
-                            <img
-                                src={getBarberById(selectedBarber).image}
-                                alt=""
-                                className="w-10 h-10 rounded-full object-cover border-2 border-primary"
-                            />
-                        ) : (
-                            <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                                <i className="fas fa-user-tie text-primary"></i>
-                            </div>
-                        )}
-                        <span className={selectedBarber ? 'text-white' : 'text-secondary'}>
-                            {selectedBarber ? getBarberById(selectedBarber).name : 'Selecione um barbeiro'}
-                        </span>
-                    </div>
-                    <i className="fas fa-chevron-right text-secondary"></i>
-                </button>
-            </div>
-
-            {/* Seleção de Serviço */}
-            <div className="mb-4">
-                <label className="text-sm text-secondary mb-2 block">Serviço</label>
-                <button
-                    className={`w-full list-item justify-between ${!selectedBarber ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    onClick={() => selectedBarber && openModal('servicos', {
-                        selected: selectedService,
-                        onSelect: setSelectedService,
-                        coveredServices: isLoggedIn ? userSubscription?.coveredServices : []
-                    })}
-                    disabled={!selectedBarber}
-                >
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                            <i className={`fas ${selectedService ? getServiceById(selectedService).icon : 'fa-scissors'} text-primary`}></i>
-                        </div>
-                        <div className="text-left">
-                            <span className={selectedService ? 'text-white' : 'text-secondary'}>
-                                {selectedService ? getServiceById(selectedService).name : 'Selecione um serviço'}
-                            </span>
-                            {selectedService && (
-                                <p className="text-sm">
-                                    {canUsePlanService() ? (
-                                        <span className="text-green-500">Incluso no plano</span>
-                                    ) : (
-                                        <span className="text-primary">R$ {getServicePrice()?.toFixed(2)}</span>
-                                    )}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                    <i className="fas fa-chevron-right text-secondary"></i>
-                </button>
-            </div>
-
-            {/* Seleção de Data e Hora */}
-            <div className="mb-6">
-                <label className="text-sm text-secondary mb-2 block">Data e Hora</label>
-                <button
-                    className={`w-full list-item justify-between ${!selectedService ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    onClick={() => selectedService && openModal('calendario', {
-                        selectedDate,
-                        selectedTime,
-                        onSelect: (date, time) => {
-                            setSelectedDate(date);
-                            setSelectedTime(time);
-                        }
-                    })}
-                    disabled={!selectedService}
-                >
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                            <i className="fas fa-calendar text-primary"></i>
-                        </div>
-                        <span className={selectedDate && selectedTime ? 'text-white' : 'text-secondary'}>
-                            {selectedDate && selectedTime
-                                ? `${new Date(selectedDate).toLocaleDateString('pt-BR')} às ${selectedTime}`
-                                : 'Selecione data e hora'}
-                        </span>
-                    </div>
-                    <i className="fas fa-chevron-right text-secondary"></i>
-                </button>
-            </div>
-
-            {/* Botão de Continuar */}
-            <button
-                className="btn-primary w-full flex items-center justify-center gap-2"
-                onClick={handleContinue}
-                disabled={!selectedUnit || !selectedBarber || !selectedService || !selectedDate || !selectedTime}
-            >
-                <span>Continuar</span>
-                <i className="fas fa-arrow-right"></i>
-            </button>
-
-            {/* Aviso de Login */}
-            {!isLoggedIn && (
-                <div className="mt-6 info-card text-center">
-                    <p className="text-secondary text-sm mb-3">
-                        Faça login para acessar benefícios exclusivos e histórico de agendamentos
-                    </p>
+                {/* Selection Buttons */}
+                <div className="selection-buttons">
+                    {/* Unidade */}
                     <button
-                        className="btn-outline text-sm py-2 px-4"
-                        onClick={() => openModal('login')}
+                        className={`selection-btn ${isSelected('unit') ? 'selected' : ''}`}
+                        onClick={() => openModal('unidades', {
+                            selected: selectedUnit,
+                            onSelect: setSelectedUnit
+                        })}
                     >
-                        Entrar ou Cadastrar
+                        <div className="selection-btn-content">
+                            <i className={`fas fa-calendar-alt selection-icon ${isSelected('unit') ? 'active' : ''}`}></i>
+                            <span className={isSelected('unit') ? 'text-white' : ''}>
+                                {selectedUnit ? getUnitById(selectedUnit).name : 'Selecionar unidade'}
+                            </span>
+                        </div>
+                        <i className="fas fa-chevron-right"></i>
+                    </button>
+
+                    {/* Barbeiro */}
+                    <button
+                        className={`selection-btn ${isSelected('barber') ? 'selected' : ''} ${!selectedUnit ? 'disabled' : ''}`}
+                        onClick={() => selectedUnit && openModal('barbeiros', {
+                            unitId: selectedUnit,
+                            selected: selectedBarber,
+                            onSelect: setSelectedBarber
+                        })}
+                    >
+                        <div className="selection-btn-content">
+                            <i className={`fas fa-user selection-icon ${isSelected('barber') ? 'active' : ''}`}></i>
+                            <span className={isSelected('barber') ? 'text-white' : ''}>
+                                {selectedBarber ? getBarberById(selectedBarber).name : 'Selecionar barbeiro'}
+                            </span>
+                        </div>
+                        <i className="fas fa-chevron-right"></i>
+                    </button>
+
+                    {/* Serviço */}
+                    <button
+                        className={`selection-btn ${isSelected('service') ? 'selected' : ''} ${!selectedBarber ? 'disabled' : ''}`}
+                        onClick={() => selectedBarber && openModal('servicos', {
+                            selected: selectedService,
+                            onSelect: setSelectedService,
+                            coveredServices: isLoggedIn ? userSubscription?.coveredServices : []
+                        })}
+                    >
+                        <div className="selection-btn-content">
+                            <i className={`fas fa-cut selection-icon ${isSelected('service') ? 'active' : ''}`}></i>
+                            <span className={isSelected('service') ? 'text-white' : ''}>
+                                {selectedService ? getServiceById(selectedService).name : 'Selecionar serviço'}
+                            </span>
+                        </div>
+                        <i className="fas fa-chevron-right"></i>
+                    </button>
+
+                    {/* Data e Hora */}
+                    <button
+                        className={`selection-btn ${isSelected('datetime') ? 'selected' : ''} ${!selectedService ? 'disabled' : ''}`}
+                        onClick={() => selectedService && openModal('calendario', {
+                            selectedDate,
+                            selectedTime,
+                            onSelect: (date, time) => {
+                                setSelectedDate(date);
+                                setSelectedTime(time);
+                            }
+                        })}
+                    >
+                        <div className="selection-btn-content">
+                            <i className={`fas fa-calendar selection-icon ${isSelected('datetime') ? 'active' : ''}`}></i>
+                            <span className={isSelected('datetime') ? 'text-white' : ''}>
+                                {selectedDate && selectedTime
+                                    ? `${new Date(selectedDate).toLocaleDateString('pt-BR')} às ${selectedTime}`
+                                    : 'Selecionar data e hora'}
+                            </span>
+                        </div>
+                        <i className="fas fa-chevron-right"></i>
                     </button>
                 </div>
-            )}
+
+                {/* Agendar Button */}
+                <button
+                    className="agendar-btn"
+                    onClick={handleAgendar}
+                >
+                    Agendar
+                </button>
+            </div>
         </div>
     );
 }
