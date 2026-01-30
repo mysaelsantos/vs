@@ -28,7 +28,6 @@ function LoginModal() {
         setLoading(true);
         setError('');
 
-        // Simular validação
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         if (phone.replace(/\D/g, '').length !== 11) {
@@ -43,31 +42,29 @@ function LoginModal() {
             return;
         }
 
-        // Simular login bem sucedido
         login();
         closeModal();
         openModal('bemVindo');
     };
 
     return (
-        <div className="p-6">
-            <div className="modal-header mb-6">
-                <button className="modal-close-btn" onClick={closeModal}>
-                    <i className="fas fa-times"></i>
-                </button>
-            </div>
+        <div className="modal-body">
+            {/* Close Button */}
+            <button className="modal-close-btn" onClick={closeModal}>
+                <i className="fas fa-times"></i>
+            </button>
 
-            <div className="text-center mb-8">
+            <div className="text-center mb-8 pt-4">
                 <img
                     src="https://i.postimg.cc/5yBSjg1F/Bigode-3.png"
                     alt="VS Barbearia"
-                    className="w-24 h-auto mx-auto mb-4"
+                    className="w-20 h-auto mx-auto mb-4"
                 />
                 <h2 className="text-2xl font-bold text-primary">Bem-vindo de volta!</h2>
                 <p className="text-secondary mt-2">Entre com seu telefone e PIN</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 px-6">
                 <div>
                     <label className="text-sm text-secondary mb-2 block">Telefone</label>
                     <input
@@ -133,9 +130,9 @@ function LoginModal() {
                 </button>
             </div>
 
-            <div className="divider my-6"></div>
+            <div className="divider my-6 mx-6"></div>
 
-            <div className="text-center">
+            <div className="text-center pb-6 px-6">
                 <p className="text-secondary text-sm mb-3">Não tem uma conta?</p>
                 <button
                     className="btn-outline w-full"
