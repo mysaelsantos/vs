@@ -308,6 +308,10 @@ body {
   align-items: center;
 }
 
+.modal-overlay.closing {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
 .modal-content {
   background: linear-gradient(180deg, #1e1e1e 0%, #141414 100%);
   border-radius: 24px 24px 0 0;
@@ -316,6 +320,10 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   animation: slideUp 0.3s ease-out;
+}
+
+.modal-content.closing {
+  animation: slideDown 0.3s ease-out forwards;
 }
 
 .modal-content.center {
@@ -389,6 +397,16 @@ body {
   }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes slideUp {
   from {
     transform: translateY(100%);
@@ -396,6 +414,16 @@ body {
 
   to {
     transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
   }
 }
 
