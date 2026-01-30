@@ -355,8 +355,8 @@ body {
 
 .modal-close-btn {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 12px;
+  right: 12px;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -373,6 +373,10 @@ body {
 
 .modal-close-btn:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-inner-content {
+  padding-top: 8px;
 }
 
 @keyframes fadeIn {
@@ -1155,7 +1159,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   cursor: pointer;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(251, 182, 44, 0.3);
 }
