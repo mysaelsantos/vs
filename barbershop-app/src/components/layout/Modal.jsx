@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-function Modal({ children, onClose, type = 'bottom', showHandle = true, showCloseButton = true }) {
+function Modal({ children, onClose, type = 'bottom', showHandle = true }) {
     const [isDragging, setIsDragging] = useState(false);
     const [dragY, setDragY] = useState(0);
+    const [isClosing, setIsClosing] = useState(false);
     const modalRef = useRef(null);
     const startY = useRef(0);
 
@@ -14,20 +15,28 @@ function Modal({ children, onClose, type = 'bottom', showHandle = true, showClos
         };
     }, []);
 
+    // Função para fechar com animação
+    const handleClose = () => {
+        setIsClosing(true);
+        setTimeout(() => {
+            onClose();
+        }, 300); // Duração da animação
+    };
+
     // Fechar com ESC
     useEffect(() => {
         const handleEsc = (e) => {
             if (e.key === 'Escape') {
-                onClose();
+                handleClose();
             }
         };
         window.addEventListener('keydown', handleEsc);
         return () => window.removeEventListener('keydown', handleEsc);
-    }, [onClose]);
+    }, []);
 
     const handleOverlayClick = (e) => {
         if (e.target === e.currentTarget) {
-            onClose();
+            handleClose();
         }
     };
 
@@ -48,7 +57,7 @@ function Modal({ children, onClose, type = 'bottom', showHandle = true, showClos
 
     const handleDragEnd = () => {
         if (dragY > 100) {
-            onClose();
+            handleClose();
         }
         setIsDragging(false);
         setDragY(0);
@@ -77,12 +86,12 @@ function Modal({ children, onClose, type = 'bottom', showHandle = true, showClos
 
     return (
         <div
-            className={`modal-overlay ${type === 'center' ? 'center' : ''}`}
+            className={`modal-overlay ${type === 'center' ? 'center' : ''} ${isClosing ? 'closing' : ''}`}
             onClick={handleOverlayClick}
         >
             <div
                 ref={modalRef}
-                className={modalClasses[type]}
+                className={`${modalClasses[type]} ${isClosing ? 'closing' : ''}`}
                 style={{
                     transform: dragY > 0 ? `translateY(${dragY}px)` : undefined,
                     transition: isDragging ? 'none' : 'transform 0.3s ease'
