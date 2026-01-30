@@ -99,13 +99,6 @@ function Modal({ children, onClose, type = 'bottom', showHandle = true, showClos
                     </div>
                 )}
 
-                {/* Botão X fixo no topo do modal */}
-                {showCloseButton && (
-                    <button className="modal-close-btn" onClick={onClose}>
-                        <i className="fas fa-times"></i>
-                    </button>
-                )}
-
                 {/* Conteúdo do modal */}
                 <div className="modal-inner-content">
                     {children}
