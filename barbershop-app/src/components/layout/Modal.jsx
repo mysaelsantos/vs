@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-function Modal({ children, onClose, type = 'bottom', showHandle = true }) {
+function Modal({ children, onClose, type = 'bottom', showHandle = true, showCloseButton = true }) {
     const [isDragging, setIsDragging] = useState(false);
     const [dragY, setDragY] = useState(0);
     const modalRef = useRef(null);
@@ -88,6 +88,7 @@ function Modal({ children, onClose, type = 'bottom', showHandle = true }) {
                     transition: isDragging ? 'none' : 'transform 0.3s ease'
                 }}
             >
+                {/* Handle para arrastar */}
                 {showHandle && type === 'bottom' && (
                     <div
                         className="modal-handle-area"
@@ -97,7 +98,18 @@ function Modal({ children, onClose, type = 'bottom', showHandle = true }) {
                         <div className="modal-handle"></div>
                     </div>
                 )}
-                {children}
+
+                {/* Botão X fixo - sempre no mesmo lugar */}
+                {showCloseButton && (
+                    <button className="modal-close-btn" onClick={onClose}>
+                        <i className="fas fa-times"></i>
+                    </button>
+                )}
+
+                {/* Conteúdo do modal */}
+                <div className="modal-inner-content">
+                    {children}
+                </div>
             </div>
         </div>
     );
