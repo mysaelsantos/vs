@@ -48,13 +48,8 @@ function LoginModal() {
     };
 
     return (
-        <div className="modal-body">
-            {/* Close Button */}
-            <button className="modal-close-btn" onClick={closeModal}>
-                <i className="fas fa-times"></i>
-            </button>
-
-            <div className="text-center mb-8 pt-4">
+        <div className="px-6 pb-6 pt-2">
+            <div className="text-center mb-8">
                 <img
                     src="https://i.postimg.cc/5yBSjg1F/Bigode-3.png"
                     alt="VS Barbearia"
@@ -64,7 +59,7 @@ function LoginModal() {
                 <p className="text-secondary mt-2">Entre com seu telefone e PIN</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 px-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label className="text-sm text-secondary mb-2 block">Telefone</label>
                     <input
@@ -130,9 +125,9 @@ function LoginModal() {
                 </button>
             </div>
 
-            <div className="divider my-6 mx-6"></div>
+            <div className="divider my-6"></div>
 
-            <div className="text-center pb-6 px-6">
+            <div className="text-center">
                 <p className="text-secondary text-sm mb-3">Não tem uma conta?</p>
                 <button
                     className="btn-outline w-full"
