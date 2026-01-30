@@ -63,8 +63,17 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.8; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
 }
 
 .loader-spinner {
@@ -78,7 +87,9 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Primary Text Color */
@@ -315,34 +326,46 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideUpFadeIn {
-  from { 
+  from {
     opacity: 0;
-    transform: translateY(20px); 
+    transform: translateY(20px);
   }
-  to { 
+
+  to {
     opacity: 1;
-    transform: translateY(0); 
+    transform: translateY(0);
   }
 }
 
 @keyframes zoomIn {
-  from { 
+  from {
     opacity: 0;
-    transform: scale(0.95); 
+    transform: scale(0.95);
   }
-  to { 
+
+  to {
     opacity: 1;
-    transform: scale(1); 
+    transform: scale(1);
   }
 }
 
@@ -711,7 +734,7 @@ body {
   display: none;
 }
 
-.scroll-container > * {
+.scroll-container>* {
   scroll-snap-align: start;
   flex-shrink: 0;
 }
@@ -831,17 +854,32 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-.stagger-5 { animation-delay: 0.5s; }
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+
+.stagger-5 {
+  animation-delay: 0.5s;
+}
 
 /* ===== UTILITY CLASSES ===== */
 .gradient-border {
@@ -876,22 +914,196 @@ body {
 
 /* ===== SHIMMER LOADING ===== */
 .shimmer {
-  background: linear-gradient(
-    90deg,
-    #1e1e1e 0%,
-    #2a2a2a 50%,
-    #1e1e1e 100%
-  );
+  background: linear-gradient(90deg,
+      #1e1e1e 0%,
+      #2a2a2a 50%,
+      #1e1e1e 100%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Content spacing to account for footer */
 .main-content {
   padding-bottom: 100px;
+}
+
+/* ===== AGENDAR VIEW - VIDEO BACKGROUND ===== */
+.agendar-view {
+  position: relative;
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+}
+
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 450px;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.background-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.75) 50%,
+      rgba(17, 17, 17, 0.95) 100%);
+}
+
+.agendar-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  min-height: calc(100vh - 100px);
+}
+
+.logo-section {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 24px;
+}
+
+.logo-image {
+  width: 80px;
+  height: auto;
+  filter: drop-shadow(0 4px 20px rgba(251, 182, 44, 0.3));
+}
+
+.title-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.main-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.title-underline {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #fbb62c, #d4930e);
+  margin: 0 auto 12px;
+  border-radius: 2px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.selection-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.selection-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.selection-btn:hover:not(.disabled) {
+  background: rgba(40, 40, 40, 0.9);
+  border-color: rgba(251, 182, 44, 0.3);
+}
+
+.selection-btn.selected {
+  border-color: rgba(251, 182, 44, 0.5);
+  background: rgba(251, 182, 44, 0.1);
+}
+
+.selection-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.selection-btn-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.selection-icon {
+  font-size: 18px;
+  color: #fbb62c;
+  width: 22px;
+  text-align: center;
+}
+
+.selection-icon.active {
+  color: #fbb62c;
+}
+
+.selection-btn i.fa-chevron-right {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.agendar-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #fbb62c 0%, #d4930e 100%);
+  border: none;
+  border-radius: 14px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(251, 182, 44, 0.3);
+}
+
+.agendar-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(251, 182, 44, 0.4);
+}
+
+.agendar-btn:active {
+  transform: translateY(0);
 }
