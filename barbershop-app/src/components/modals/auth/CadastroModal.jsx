@@ -82,12 +82,17 @@ function CadastroModal() {
     };
 
     return (
-        <div className="p-6">
-            <div className="modal-header mb-6">
-                <button className="modal-close-btn" onClick={step === 1 ? closeModal : () => setStep(1)}>
-                    <i className={`fas ${step === 1 ? 'fa-times' : 'fa-arrow-left'}`}></i>
+        <div className="p-6 pt-2">
+            {/* Botão de voltar (só aparece no step 2) */}
+            {step === 2 && (
+                <button
+                    className="flex items-center gap-2 text-secondary mb-4 hover:text-white transition-colors"
+                    onClick={() => setStep(1)}
+                >
+                    <i className="fas fa-arrow-left"></i>
+                    <span>Voltar</span>
                 </button>
-            </div>
+            )}
 
             <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold text-primary">Criar Conta</h2>
