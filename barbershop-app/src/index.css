@@ -826,7 +826,7 @@ body {
   text-align: center;
 }
 
-.empty-state i {
+.empty-state>i {
   font-size: 64px;
   color: #333;
   margin-bottom: 16px;
