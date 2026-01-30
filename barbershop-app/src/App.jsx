@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import LoadingScreen from './components/layout/LoadingScreen';
 import Footer from './components/layout/Footer';
@@ -46,6 +46,14 @@ import FaleConoscoModal from './components/modals/FaleConoscoModal';
 
 function AppContent() {
     const { isLoading, currentView, activeModal, closeModal } = useApp();
+    const videoRef = useRef(null);
+
+    // Manter vídeo rodando mesmo quando troca de aba
+    useEffect(() => {
+        if (videoRef.current && !isLoading) {
+            videoRef.current.play().catch(() => { });
+        }
+    }, [currentView, isLoading]);
 
     const renderView = () => {
         switch (currentView) {
@@ -124,6 +132,21 @@ function AppContent() {
 
     return (
         <div className="app-container">
+            {/* Video Background - Persiste em todas as abas */}
+            <div className="video-background">
+                <video
+                    ref={videoRef}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="background-video"
+                >
+                    <source src="/vs.mp4" type="video/mp4" />
+                </video>
+                <div className="video-overlay"></div>
+            </div>
+
             <main className="main-content">
                 {renderView()}
             </main>
