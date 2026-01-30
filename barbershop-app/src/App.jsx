@@ -44,16 +44,35 @@ import ResgatarCreditoModal from './components/modals/perfil/ResgatarCreditoModa
 import TermosModal from './components/modals/TermosModal';
 import FaleConoscoModal from './components/modals/FaleConoscoModal';
 
-function AppContent() {
-    const { isLoading, currentView, activeModal, closeModal } = useApp();
+// Componente de Video Background que persiste
+function VideoBackground({ isVisible }) {
     const videoRef = useRef(null);
 
-    // Manter vídeo rodando mesmo quando troca de aba
     useEffect(() => {
-        if (videoRef.current && !isLoading) {
+        if (videoRef.current) {
             videoRef.current.play().catch(() => { });
         }
-    }, [currentView, isLoading]);
+    }, []);
+
+    return (
+        <div className={`video-background ${isVisible ? 'visible' : 'hidden'}`}>
+            <video
+                ref={videoRef}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="background-video"
+            >
+                <source src="/vs.mp4" type="video/mp4" />
+            </video>
+            <div className="video-overlay"></div>
+        </div>
+    );
+}
+
+function AppContent() {
+    const { isLoading, currentView, activeModal, closeModal } = useApp();
 
     const renderView = () => {
         switch (currentView) {
@@ -132,20 +151,8 @@ function AppContent() {
 
     return (
         <div className="app-container">
-            {/* Video Background - Persiste em todas as abas */}
-            <div className="video-background">
-                <video
-                    ref={videoRef}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="background-video"
-                >
-                    <source src="/vs.mp4" type="video/mp4" />
-                </video>
-                <div className="video-overlay"></div>
-            </div>
+            {/* Video Background - Apenas visível na aba Agendar */}
+            <VideoBackground isVisible={currentView === 'agendar'} />
 
             <main className="main-content">
                 {renderView()}
